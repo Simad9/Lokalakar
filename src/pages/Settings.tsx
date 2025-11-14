@@ -25,9 +25,9 @@ const Settings = () => {
           <div className="flex flex-col items-center">
             <div className="relative mb-4">
               <img
-                src="https://images.unsplash.com/photo-1474511320723-9a56873867b5?w=300&h=300&fit=crop"
-                alt="Profile"
-                className="h-48 w-48 rounded-full object-cover"
+                  src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e"
+                  alt="Profile"
+                  className="h-48 w-48 rounded-full object-cover"
               />
               <button className="absolute bottom-2 right-2 rounded-full bg-background p-3 shadow-lg ring-2 ring-border hover:bg-accent">
                 <Pencil className="h-4 w-4" />

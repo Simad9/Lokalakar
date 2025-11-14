@@ -32,6 +32,7 @@ const Dashboard = () => {
   const [filters, setFilters] = useState<FilterState | null>(null);
   const [isDetailOpen, setIsDetailOpen] = useState(false);
   const [selectedUMKM, setSelectedUMKM] = useState<UMKMDetail | null>(null);
+  const [isNotificationOpen, setIsNotificationOpen] = useState(false);
 
   // Mock data for food items
   const foodItems = Array(6).fill({
@@ -107,13 +108,82 @@ const Dashboard = () => {
                 Selamat Datang, Jhon Doe
               </h1>
               <div className="flex items-center gap-4">
-                <button className="relative p-2 hover:bg-muted rounded-lg transition-colors">
-                  <Bell className="h-5 w-5 text-foreground" />
-                  <span className="absolute top-1 right-1 h-2 w-2 bg-destructive rounded-full"></span>
-                </button>
-                <div className="h-10 w-10 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-semibold">
-                  JD
+                <div className="relative">
+                  <button
+                    onClick={() => setIsNotificationOpen(!isNotificationOpen)}
+                    className="relative p-2 hover:bg-muted rounded-lg transition-colors"
+                  >
+                    <Bell className="h-5 w-5 text-foreground" />
+                    <span className="absolute top-1 right-1 h-2 w-2 bg-destructive rounded-full"></span>
+                  </button>
+
+                  {/* Notification Dropdown */}
+                  {isNotificationOpen && (
+                    <div className="absolute right-0 mt-2 w-80 bg-card border border-border rounded-lg shadow-lg z-50">
+                      <div className="p-4 border-b border-border">
+                        <h3 className="font-semibold text-foreground">Notifikasi</h3>
+                      </div>
+                      <div className="max-h-96 overflow-y-auto">
+                        <div className="p-4 border-b border-border hover:bg-muted cursor-pointer transition-colors">
+                          <div className="flex gap-3">
+                            <div className="h-10 w-10 rounded-full bg-blue-500 flex items-center justify-center flex-shrink-0">
+                              <span className="text-white text-sm">📍</span>
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <p className="font-medium text-foreground">Sate Hidden Gem Baru Dibuka</p>
+                              <p className="text-sm text-muted-foreground mt-1">Tempat baru dengan rating 4.8 telah ditambahkan di Sleman</p>
+                              <p className="text-xs text-muted-foreground mt-2">10 menit yang lalu</p>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="p-4 border-b border-border hover:bg-muted cursor-pointer transition-colors">
+                          <div className="flex gap-3">
+                            <div className="h-10 w-10 rounded-full bg-green-500 flex items-center justify-center flex-shrink-0">
+                              <span className="text-white text-sm">⭐</span>
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <p className="font-medium text-foreground">Review Baru dari Pengguna</p>
+                              <p className="text-sm text-muted-foreground mt-1">Hiro memberikan rating 5 bintang untuk Sate Hidden Gem</p>
+                              <p className="text-xs text-muted-foreground mt-2">2 jam yang lalu</p>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="p-4 border-b border-border hover:bg-muted cursor-pointer transition-colors">
+                          <div className="flex gap-3">
+                            <div className="h-10 w-10 rounded-full bg-purple-500 flex items-center justify-center flex-shrink-0">
+                              <span className="text-white text-sm">💬</span>
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <p className="font-medium text-foreground">Update Promo Terbaru</p>
+                              <p className="text-sm text-muted-foreground mt-1">Dapatkan diskon 20% untuk pembelian di atas Rp 50.000</p>
+                              <p className="text-xs text-muted-foreground mt-2">4 jam yang lalu</p>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="p-4 hover:bg-muted cursor-pointer transition-colors">
+                          <div className="flex gap-3">
+                            <div className="h-10 w-10 rounded-full bg-orange-500 flex items-center justify-center flex-shrink-0">
+                              <span className="text-white text-sm">🎉</span>
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <p className="font-medium text-foreground">Selamat, Akun Anda Terverifikasi</p>
+                              <p className="text-sm text-muted-foreground mt-1">Email Anda telah berhasil diverifikasi</p>
+                              <p className="text-xs text-muted-foreground mt-2">1 hari yang lalu</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </div>
+                <img
+                  src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop"
+                  alt="User avatar"
+                  className="h-10 w-10 rounded-full object-cover"
+                />
               </div>
             </div>
 
