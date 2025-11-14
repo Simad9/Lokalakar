@@ -1,6 +1,7 @@
 import { Home, Map, Bookmark, MessageSquare, Settings, LogOut } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import logo from "@/assets/logo.png";
+import { useNavigate } from "react-router-dom";
 
 const Sidebar = () => {
   const navItems = [
@@ -10,6 +11,13 @@ const Sidebar = () => {
     { icon: MessageSquare, label: "Review Saya", path: "/reviews" },
     { icon: Settings, label: "Pengaturan", path: "/settings" },
   ];
+
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    // clear auth state here if needed
+    navigate("/");
+  };
 
   return (
     <aside className="w-64 bg-sidebar text-white flex flex-col h-screen sticky top-0">
@@ -37,7 +45,10 @@ const Sidebar = () => {
       </nav>
 
       {/* Logout */}
-      <button className="flex items-center gap-3 px-6 py-4 text-white/80 hover:bg-sidebar-hover hover:text-white transition-colors border-t border-white/10">
+      <button
+        onClick={handleLogout}
+        className="flex items-center gap-3 px-6 py-4 text-white/80 hover:bg-sidebar-hover hover:text-white transition-colors border-t border-white/10"
+      >
         <LogOut className="h-5 w-5" />
         <span>Keluar</span>
       </button>

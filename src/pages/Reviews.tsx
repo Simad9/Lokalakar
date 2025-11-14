@@ -1,19 +1,107 @@
 import { Bell, Search, SlidersHorizontal } from "lucide-react";
+import { useState } from "react";
 import Sidebar from "@/components/Sidebar";
+import ReviewDetail from "@/components/ReviewDetail";
+import FilterSidebar, { FilterState } from "@/components/FilterSidebar";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+
+interface ReviewDetailData {
+  id: string;
+  title: string;
+  image: string;
+  badge?: string;
+  location: string;
+  hours: string;
+  priceRange: string;
+  rating: number;
+  maxRating: number;
+  userReview: {
+    name: string;
+    rating: number;
+    comment: string;
+    avatar: string;
+  };
+  otherReviews: Array<{
+    id: string;
+    name: string;
+    rating: number;
+    comment: string;
+    avatar: string;
+  }>;
+}
 
 const Reviews = () => {
+  const [isDetailOpen, setIsDetailOpen] = useState(false);
+  const [selectedReview, setSelectedReview] = useState<ReviewDetailData | null>(null);
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [filters, setFilters] = useState<FilterState | null>(null);
+
   const reviews = [
     {
-      id: 1,
+      id: "1",
       name: "Sate Hidden Gem",
-      location: "Jln. Ahmad Yani, Sleman, Yogyakarata",
+      location: "Jln. Ahmad Yani, Sleman, Yogyakarta",
       priceRange: "Rp. 5.000 - 25.000",
-      image: "https://images.unsplash.com/photo-1529543544-3d0b5c83265f?w=400&h=300&fit=crop",
-      badge: "Hidden Gem"
+      image: "https://images.unsplash.com/photo-1585032226651-759b368d7246?w=500&h=400&fit=crop",
+      badge: "Hidden Gem",
+      hours: "09:00 - 21:00 WIB",
+      rating: 4.8,
     }
   ];
+
+  const reviewDetailMap: { [key: string]: ReviewDetailData } = {
+    "1": {
+      id: "1",
+      title: "Sate Hidden Gem",
+      image: "https://images.unsplash.com/photo-1585032226651-759b368d7246?w=500&h=400&fit=crop",
+      badge: "Hidden Gem",
+      location: "Jln. Ahmad Yani, Sleman, Yogyakarta",
+      hours: "09:00 - 21:00 WIB",
+      priceRange: "Rp. 5.000 - 25.000",
+      rating: 4.8,
+      maxRating: 5.0,
+      userReview: {
+        name: "Jhon Doe",
+        rating: 4,
+        comment: "Enak sekali makan disini, satenya banyak. Yang jual baik juga",
+        avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop",
+      },
+      otherReviews: [
+        {
+          id: "1",
+          name: "Hiro",
+          rating: 5,
+          comment: "Mantap, enak menu disini, satenya banyak",
+          avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop",
+        },
+        {
+          id: "2",
+          name: "Budiyanto",
+          rating: 4,
+          comment: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vel euismod nisl, sodales laoreet erat. Integer...",
+          avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop",
+        },
+        {
+          id: "3",
+          name: "Sukijem Ahmad",
+          rating: 4,
+          comment: "Morbi volutpat dui at augue tincidunt, nec consequat neque sodales. Aliquam imperdiet risus in velit rhonc...",
+          avatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=100&h=100&fit=crop",
+        },
+      ],
+    }
+  };
+
+  const handleViewDetailReview = (review: (typeof reviews)[0]) => {
+    const detail = reviewDetailMap[review.id];
+    setSelectedReview(detail);
+    setIsDetailOpen(true);
+  };
+
+  const handleApplyFilter = (newFilters: FilterState) => {
+    setFilters(newFilters);
+    console.log("Filters applied:", newFilters);
+  };
 
   return (
     <div className="flex min-h-screen w-full bg-background">
@@ -50,12 +138,15 @@ const Reviews = () => {
                 className="h-12 pl-4 pr-4"
               />
             </div>
-            <Button size="icon" className="h-12 w-12 shrink-0">
+            <button className="inline-flex items-center justify-center h-12 w-12 rounded-md border border-input bg-background hover:bg-accent transition-colors flex-shrink-0">
               <Search className="h-5 w-5" />
-            </Button>
-            <Button variant="outline" size="icon" className="h-12 w-12 shrink-0">
+            </button>
+            <button
+              onClick={() => setIsFilterOpen(true)}
+              className="inline-flex items-center justify-center h-12 w-12 rounded-md border border-input bg-background hover:bg-accent transition-colors flex-shrink-0"
+            >
               <SlidersHorizontal className="h-5 w-5" />
-            </Button>
+            </button>
           </div>
 
           {/* Review Cards */}
@@ -87,15 +178,32 @@ const Reviews = () => {
                     </svg>
                     {review.priceRange}
                   </p>
-                  <Button variant="outline" className="w-full">
+                  <button
+                    onClick={() => handleViewDetailReview(review)}
+                    className="w-full px-4 py-2 rounded-md border border-input bg-background hover:bg-primary hover:text-white font-medium transition-colors"
+                  >
                     Detail Review
-                  </Button>
+                  </button>
                 </div>
               </div>
             ))}
           </div>
         </div>
       </main>
+
+      {/* Review Detail Sidebar */}
+      <ReviewDetail
+        isOpen={isDetailOpen}
+        onClose={() => setIsDetailOpen(false)}
+        data={selectedReview}
+      />
+
+      {/* Filter Sidebar */}
+      <FilterSidebar
+        isOpen={isFilterOpen}
+        onClose={() => setIsFilterOpen(false)}
+        onApplyFilter={handleApplyFilter}
+      />
     </div>
   );
 };

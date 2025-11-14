@@ -7,9 +7,10 @@ interface FoodCardProps {
   priceRange: string;
   image: string;
   badge?: string;
+  onViewDetail?: () => void;
 }
 
-const FoodCard = ({ title, location, priceRange, image, badge }: FoodCardProps) => {
+const FoodCard = ({ title, location, priceRange, image, badge, onViewDetail }: FoodCardProps) => {
   return (
     <div className="bg-card rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-shadow">
       <div className="relative">
@@ -38,7 +39,10 @@ const FoodCard = ({ title, location, priceRange, image, badge }: FoodCardProps) 
           <span>{priceRange}</span>
         </div>
         
-        <Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground">
+        <Button
+          onClick={onViewDetail}
+          className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
+        >
           Lihat Detail
         </Button>
       </div>
